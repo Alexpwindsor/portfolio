@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alex Windsor — Senior Product Designer</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-base: #03071e;
+    --bg-mid: #050c2e;
+    --bg-top: #080f3a;
+    --accent: #4f8ef7;
+    --accent2: #7c5cbf;
+    --accent3: #2dd4bf;
+    --tile-bg: rgba(255,255,255,0.04);
+    --tile-border: rgba(255,255,255,0.08);
+    --tile-hover: rgba(255,255,255,0.07);
+    --text-primary: #e8eaf6;
+    --text-secondary: #8b9dc3;
+    --text-muted: #4a5a82;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: auto; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated gradient background */
+  .bg-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: var(--bg-base);
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .bg-canvas::before {
+    content: '';
+    position: absolute;
+    width: 900px;
+    height: 900px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(79,142,247,0.07) 0%, transparent 70%);
+    top: -200px;
+    left: -200px;
+    animation: drift1 18s ease-in-out infinite alternate;
+  }
+  .bg-canvas::after {
+    content: '';
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,92,191,0.07) 0%, transparent 70%);
+    bottom: -100px;
+    right: -100px;
+    animation: drift2 22s ease-in-out infinite alternate;
+  }
+  .bg-orb3 {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(45,212,191,0.04) 0%, transparent 70%);
+    bottom: 30%;
+    left: 40%;
+    animation: drift3 26s ease-in-out infinite alternate;
+  }
+  .bg-orb4 {
+    position: absolute;
+    width: 1205px;
+    height: 1205px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%,
+      rgba(147,197,253,0.07) 0%,
+      rgba(96,165,250,0.04) 30%,
+      rgba(59,130,246,0.01) 60%,
+      transparent 75%
+    );
+    top: -180px;
+    left: -180px;
+    animation: pulseOrb 22.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .bg-orb5 {
+    position: absolute;
+    width: 1147px;
+    height: 1147px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%,
+      rgba(45,212,191,0.14) 0%,
+      rgba(45,212,191,0.07) 30%,
+      rgba(45,212,191,0.03) 60%,
+      transparent 75%
+    );
+    top: -180px;
+    right: -200px;
+    animation: pulseOrbReverse 22.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .bg-orb6 {
+    position: absolute;
+    width: 1150px;
+    height: 1150px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%,
+      rgba(30,58,138,0.20) 0%,
+      rgba(30,58,138,0.10) 30%,
+      rgba(30,58,138,0.04) 60%,
+      transparent 75%
+    );
+    bottom: -200px;
+    left: -200px;
+    animation: pulseOrbThird 22.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes pulseOrb {
+    0%   { opacity: 0;   transform: scale(0.97); }
+    50%  { opacity: 0.8; transform: scale(1.03); }
+    100% { opacity: 0;   transform: scale(0.97); }
+  }
+  @keyframes pulseOrbReverse {
+    0%   { opacity: 0.8; transform: scale(1.03); }
+    50%  { opacity: 0;   transform: scale(0.97); }
+    100% { opacity: 0.8; transform: scale(1.03); }
+  }
+  @keyframes pulseOrbThird {
+    0%   { opacity: 0;   transform: scale(0.97); }
+    16%  { opacity: 0;   transform: scale(0.97); }
+    50%  { opacity: 0.8; transform: scale(1.03); }
+    84%  { opacity: 0;   transform: scale(0.97); }
+    100% { opacity: 0;   transform: scale(0.97); }
+  }
+  @keyframes drift1 { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(120px,80px) scale(1.15)} }
+  @keyframes drift2 { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(-80px,-120px) scale(1.1)} }
+  @keyframes drift3 { 0%{transform:translate(0,0)} 100%{transform:translate(-60px,80px)} }
+
+  /* Content layer */
+  .content { position: relative; z-index: 10; }
+
+  /* Header */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0;
+    background: rgba(3,7,30,0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: background 0.3s;
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.25rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text-primary); }
+
+  /* Hamburger */
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 6px 6px 6px 0;
+    border: none;
+    background: none;
+    z-index: 9100;
+    position: relative;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text-primary);
+    border-radius: 2px;
+    transition: transform 0.35s cubic-bezier(0.23,1,0.32,1), opacity 0.25s, width 0.3s;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Full screen nav modal */
+  .nav-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    background: rgba(3,7,30,0.97);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s cubic-bezier(0.23,1,0.32,1);
+  }
+  .nav-modal.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .nav-modal::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(79,142,247,0.06) 0%, transparent 70%);
+    top: -100px; left: -100px;
+    pointer-events: none;
+  }
+  .nav-modal::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,92,191,0.06) 0%, transparent 70%);
+    bottom: -50px; right: -50px;
+    pointer-events: none;
+  }
+
+  .nav-close {
+    position: absolute;
+    top: 1.5rem; right: 2rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+    line-height: 1;
+    z-index: 9100;
+  }
+  .nav-close:hover { color: var(--text-primary); transform: rotate(90deg); }
+
+  .nav-modal-links {
+    list-style: none;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+  }
+  .nav-modal-links li {
+    margin-bottom: 0.5rem;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(0.23,1,0.32,1), opacity 0.5s;
+  }
+  .nav-modal.open .nav-modal-links li:nth-child(1) { transition-delay: 0.05s; transform: translateY(0); opacity: 1; }
+  .nav-modal.open .nav-modal-links li:nth-child(2) { transition-delay: 0.1s; transform: translateY(0); opacity: 1; }
+  .nav-modal.open .nav-modal-links li:nth-child(3) { transition-delay: 0.15s; transform: translateY(0); opacity: 1; }
+  .nav-modal.open .nav-modal-links li:nth-child(4) { transition-delay: 0.2s; transform: translateY(0); opacity: 1; }
+  .nav-modal.open .nav-modal-links li:nth-child(5) { transition-delay: 0.25s; transform: translateY(0); opacity: 1; }
+  .nav-modal.open .nav-modal-links li:nth-child(6) { transition-delay: 0.3s; transform: translateY(0); opacity: 1; }
+
+  .nav-modal-links a {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text-muted);
+    text-decoration: none;
+    display: block;
+    padding: 0.2rem 0;
+    transition: color 0.2s, letter-spacing 0.3s;
+    line-height: 1.15;
+  }
+  .nav-modal-links a:hover { color: var(--text-primary); letter-spacing: -0.01em; }
+
+  .nav-modal-sub {
+    margin-top: 3rem;
+    display: flex;
+    gap: 2rem;
+    position: relative;
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s 0.35s, transform 0.5s 0.35s;
+  }
+  .nav-modal.open .nav-modal-sub { opacity: 1; transform: translateY(0); }
+  .nav-modal-sub a {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-modal-sub a:hover { color: var(--accent); }
+
+  /* Tile base */
+  .tile {
+    background: var(--tile-bg);
+    border: 1px solid var(--tile-border);
+    border-radius: 15px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: background 0.3s, border-color 0.3s, transform 0.3s;
+  }
+  .tile:hover {
+    background: var(--tile-hover);
+    border-color: rgba(255,255,255,0.13);
+    transform: translateY(-2px);
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 7rem 2rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+    display: inline-block;
+  }
+  .hero-title {
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title .accent { color: var(--accent); }
+  .hero-title .accent2 { color: var(--accent2); }
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 540px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    font-weight: 400;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 2rem;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 100px;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(79,142,247,0.15); }
+  .hero-cta-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 2rem;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 100px;
+    text-decoration: none;
+    border: 1px solid var(--tile-border);
+    transition: color 0.2s, border-color 0.2s;
+    margin-left: 1rem;
+  }
+  .hero-cta-ghost:hover { color: var(--text-primary); border-color: rgba(255,255,255,0.2); }
+
+
+
+  /* Stats row */
+  .stat-val {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+    font-weight: 400;
+  }
+
+  /* Section */
+  section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .section-label::before { content: ''; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+  .section-desc {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+
+  /* Case study cards */
+  .case-card {
+    background: var(--tile-bg);
+    border: 1px solid var(--tile-border);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s, background 0.3s;
+    cursor: pointer;
+    position: relative;
+  }
+  .case-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(79,142,247,0.2);
+    background: var(--tile-hover);
+  }
+  .case-card-img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(79,142,247,0.15), rgba(124,92,191,0.15));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .case-card-img-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .case-card-body { padding: 1.5rem; }
+  .case-tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+    border: 1px solid;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+  .tag-blue { color: var(--accent); border-color: rgba(79,142,247,0.3); background: rgba(79,142,247,0.07); }
+  .tag-purple { color: var(--accent2); border-color: rgba(124,92,191,0.3); background: rgba(124,92,191,0.07); }
+  .tag-teal { color: var(--accent3); border-color: rgba(45,212,191,0.3); background: rgba(45,212,191,0.07); }
+  .case-card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+  .case-card-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  .case-card-meta {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+  .case-card-arrow {
+    position: absolute;
+    top: 1.25rem; right: 1.25rem;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(79,142,247,0.12);
+    border: 1px solid rgba(79,142,247,0.2);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s, background 0.2s;
+    color: var(--accent);
+    font-size: 0.9rem;
+  }
+  .case-card:hover .case-card-arrow { transform: translate(2px,-2px); background: rgba(79,142,247,0.2); }
+
+  /* Mockup SVG illustrations in cards */
+  .mockup-dash { fill: none; }
+
+  /* Passion project cards */
+  .passion-card {
+    background: var(--tile-bg);
+    border: 1px solid var(--tile-border);
+    border-radius: 15px;
+    padding: 1.75rem;
+    transition: transform 0.3s, border-color 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .passion-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .passion-card:hover { transform: translateY(-3px); }
+  .passion-card:hover::before { opacity: 1; }
+  .passion-card.blue::before { background: radial-gradient(circle, rgba(79,142,247,0.08) 0%, transparent 70%); }
+  .passion-card.purple::before { background: radial-gradient(circle, rgba(124,92,191,0.08) 0%, transparent 70%); }
+  .passion-card.teal::before { background: radial-gradient(circle, rgba(45,212,191,0.08) 0%, transparent 70%); }
+
+  .passion-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.25rem;
+    color: var(--accent);
+  }
+  .passion-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .passion-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+  .passion-link {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: gap 0.2s;
+  }
+  .passion-link:hover { gap: 0.65rem; }
+
+  /* Inspiration */
+  .inspo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
+    gap: 1rem;
+  }
+  .inspo-card {
+    background: var(--tile-bg);
+    border: 1px solid var(--tile-border);
+    border-radius: 15px;
+    padding: 1.5rem;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .inspo-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.12); }
+  .inspo-quote {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin-bottom: 1rem;
+  }
+  .inspo-author {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .inspo-type {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+  }
+  .inspo-big {
+    grid-column: span 2;
+    background: linear-gradient(135deg, rgba(79,142,247,0.06), rgba(124,92,191,0.06));
+    border-color: rgba(79,142,247,0.12);
+  }
+  @media (max-width: 640px) { .inspo-big { grid-column: span 1; } }
+
+  /* About section */
+  .about-avatar {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    flex-shrink: 0;
+  }
+  .skill-pill {
+    display: inline-flex;
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--text-secondary);
+    margin: 0.25rem;
+    transition: background 0.2s, color 0.2s;
+  }
+  .skill-pill:hover { background: rgba(79,142,247,0.1); color: var(--accent); border-color: rgba(79,142,247,0.2); }
+
+  /* Contact */
+  .contact-wrapper {
+    background: var(--tile-bg);
+    border: 1px solid var(--tile-border);
+    border-radius: 15px;
+    padding: 3rem;
+    max-width: 700px;
+    margin: 0 auto;
+    backdrop-filter: blur(12px);
+  }
+  .contact-input {
+    width: 100%;
+    padding: 0.85rem 1.1rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    margin-bottom: 1rem;
+  }
+  .contact-input:focus { border-color: rgba(79,142,247,0.4); background: rgba(79,142,247,0.04); }
+  .contact-input::placeholder { color: var(--text-muted); }
+  textarea.contact-input { resize: vertical; min-height: 130px; }
+  .contact-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 2.2rem;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .contact-submit:hover { transform: translateY(-1px); box-shadow: 0 10px 30px rgba(79,142,247,0.3); }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Responsive */
+  /* Grid layouts as CSS classes so media queries can reliably override them */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 2.5rem;
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    max-width: 420px;
+  }
+  .contact-name-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    section { padding: 3.5rem 1.25rem; }
+    .hero { padding: 6rem 1.25rem 3rem; }
+    .contact-wrapper { padding: 2rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .stats-grid { gap: 1.5rem; max-width: 100%; }
+    .contact-name-grid { grid-template-columns: 1fr; }
+    .hero-cta-ghost { margin-left: 0; margin-top: 0.75rem; padding: 0.85rem 1.25rem; }
+    .hero-cta, .hero-cta-ghost { display: block; text-align: center; width: 100%; max-width: 280px; }
+    .contact-wrapper .contact-submit { width: 100%; justify-content: center; }
+    .nav-modal-links a { font-size: clamp(2rem, 10vw, 3rem); }
+  }
+  @media (min-width: 769px) {
+    .hamburger { display: none; }
+  }
+
+  /* Fade-in on scroll */
+  .fade-up {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  /* Only hide if JS animations are supported and enabled */
+  .js-animations .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  .js-animations .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Offset anchor links for fixed header (~70px tall) */
+
+
+  /* Divider */
+  .divider { border-top: 1px solid rgba(255,255,255,0.05); }
+
+  /* Timeline dots for about */
+  .timeline-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  /* Highlight text */
+  .hl { color: var(--accent); }
+  .hl2 { color: var(--accent2); }
+  .hl3 { color: var(--accent3); }
+</style>
+</head>
+<body>
+
+<!-- Animated background -->
+<div class="bg-canvas">
+  <div class="bg-orb3"></div>
+  <div class="bg-orb4"></div>
+  <div class="bg-orb5"></div>
+  <div class="bg-orb6"></div>
+</div>
+
+<!-- Full-screen nav modal -->
+<!-- Header -->
+<header>
+  <div class="header-inner">
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <a href="#" class="logo">alex<span>.</span>windsor</a>
+    <nav aria-label="Primary navigation">
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#case-studies">Case Studies</a></li>
+        <li><a href="#passion">Projects</a></li>
+        <li><a href="#inspiration">Inspiration</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<div class="content">
+<section class="hero" style="padding-top:7rem; max-width:1200px; position:relative;" id="home">
+  <div style="max-width:800px;">
+    <div class="hero-eyebrow fade-up">Senior Product Designer · UX Strategist</div>
+    <h1 class="hero-title fade-up" style="transition-delay:0.1s;">
+      Designing<br>
+      <span class="accent">products</span><br>
+      that <span class="accent2">perform</span>
+    </h1>
+    <p class="hero-desc fade-up" style="transition-delay:0.2s;">
+      I'm Alex Windsor — a Senior Product Designer crafting intuitive digital experiences for major brands including Wells Fargo, Intuit, Google, Disney, Samsung, and Symantec. I steer design thinking from strategy through execution, with a track record of measurable impact.
+    </p>
+    <div class="fade-up" style="transition-delay:0.3s;">
+      <a href="#case-studies" class="hero-cta">View my work ↓</a>
+      <a href="#contact" class="hero-cta-ghost">Get in touch</a>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid fade-up">
+      <div>
+        <div class="stat-val">20+</div>
+        <div class="stat-label">Products shipped</div>
+      </div>
+      <div>
+        <div class="stat-val">3</div>
+        <div class="stat-label">US Patents filed</div>
+      </div>
+      <div>
+        <div class="stat-val">+8pt</div>
+        <div class="stat-label">NPS uplift at WF</div>
+      </div>
+    </div>
+  </div>
+
+
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="fade-up">
+  <div class="section-label">About me</div>
+  <div class="about-grid">
+    <div>
+      <h2 class="section-title">Design that moves<br>the needle</h2>
+      <p style="font-size:0.95rem; color:var(--text-secondary); line-height:1.75; margin-bottom:1.5rem;">
+        Based in San Francisco, I obsess over how people interact with technology at scale. From shaping Zelle at Wells Fargo to defining QuickBooks' visual language at Intuit — I bridge design craft with business outcomes.
+      </p>
+      <p style="font-size:0.95rem; color:var(--text-secondary); line-height:1.75; margin-bottom:2rem;">
+        I lead cross-functional teams, manage design programs end-to-end, and bring a rare combination of strategic vision and hands-on execution. My work has earned 3 US patents, a best-in-class network rating, and measurable NPS growth at one of the largest banks in the country.
+      </p>
+
+      <!-- Experience timeline -->
+      <div style="display:flex; flex-direction:column; gap:1.25rem;">
+        <div style="display:flex; gap:1rem;">
+          <div class="timeline-dot" style="margin-top:5px;"></div>
+          <div>
+            <div style="font-size:0.88rem; font-weight:700; color:var(--text-primary);">VP Lead Product Designer · Wells Fargo</div>
+            <div style="font-size:0.78rem; color:var(--text-muted); margin-top:0.2rem;">May 2018 – Present · San Francisco</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:1rem;">
+          <div class="timeline-dot" style="background:var(--accent2);"></div>
+          <div>
+            <div style="font-size:0.88rem; font-weight:700; color:var(--text-primary);">Senior Product Designer · Intuit</div>
+            <div style="font-size:0.78rem; color:var(--text-muted); margin-top:0.2rem;">Oct 2014 – Oct 2016 · via Sage Group</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:1rem;">
+          <div class="timeline-dot" style="background:var(--accent3);"></div>
+          <div>
+            <div style="font-size:0.88rem; font-weight:700; color:var(--text-primary);">Senior UX Designer · Google</div>
+            <div style="font-size:0.78rem; color:var(--text-muted); margin-top:0.2rem;">Apr 2014 – Oct 2014 · via Match Point Solutions</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:1rem;">
+          <div class="timeline-dot" style="background:rgba(255,255,255,0.25);"></div>
+          <div>
+            <div style="font-size:0.88rem; font-weight:700; color:var(--text-primary);">Senior UX Designer · Disney Interactive</div>
+            <div style="font-size:0.78rem; color:var(--text-muted); margin-top:0.2rem;">Jul 2012 – Apr 2014</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:1rem;">
+          <div class="timeline-dot" style="background:rgba(255,255,255,0.12);"></div>
+          <div>
+            <div style="font-size:0.88rem; font-weight:700; color:var(--text-primary);">Earlier: Samsung · Symantec · Razorfish · Lytro</div>
+            <div style="font-size:0.78rem; color:var(--text-muted); margin-top:0.2rem;">2006 – 2012</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills + tiles -->
+    <div style="display:flex; flex-direction:column; gap:1rem;">
+      <div class="tile" style="padding:1.75rem;">
+        <div style="font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-muted); margin-bottom:1rem; font-weight:600;">Core competencies</div>
+        <div>
+          <span class="skill-pill">Product Experience Design</span>
+          <span class="skill-pill">Interaction Design</span>
+          <span class="skill-pill">Design Systems</span>
+          <span class="skill-pill">UX Research</span>
+          <span class="skill-pill">Usability Testing</span>
+          <span class="skill-pill">Rapid Prototyping</span>
+          <span class="skill-pill">Design Program Mgmt</span>
+          <span class="skill-pill">Team Leadership</span>
+          <span class="skill-pill">Cross-functional Collab</span>
+          <span class="skill-pill">ADA / Accessibility</span>
+          <span class="skill-pill">Product Roadmap Dev</span>
+          <span class="skill-pill">Team Facilitation</span>
+        </div>
+      </div>
+      <div class="tile" style="padding:1.75rem; background:linear-gradient(135deg,rgba(79,142,247,0.06),rgba(124,92,191,0.06));">
+        <div style="margin-bottom:0.75rem; color:var(--accent);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v6a6 6 0 01-12 0V2z"/><path d="M6 4H3a2 2 0 000 4h3M18 4h3a2 2 0 010 4h-3"/><path d="M12 14v4M8 22h8"/><line x1="12" y1="8" x2="12" y2="8.01"/></svg></div>
+        <div style="font-size:0.95rem; font-weight:700; color:var(--text-primary); margin-bottom:0.35rem;">3 US Patents Filed</div>
+        <div style="font-size:0.82rem; color:var(--text-muted);">Concepts from Wells Fargo Charitable Giving · #12541378 · #29890621 · #18643854</div>
+      </div>
+      <div class="tile" style="padding:1.75rem;">
+        <div style="font-size:0.82rem; color:var(--text-secondary); line-height:1.65; font-style:italic;">"The QR code send/share design has been rated best in class by the Zelle network — placing Wells Fargo's version first above all competing financial institutions."</div>
+        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.75rem; font-weight:600;">— Zelle Network Review · 2023</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Divider -->
+<div class="divider" style="max-width:1200px; margin:0 auto;"></div>
+
+<!-- CASE STUDIES -->
+<section id="case-studies" class="fade-up">
+  <div class="section-label">Case studies</div>
+  <h2 class="section-title">Selected work</h2>
+  <p class="section-desc">Real problems at real scale — the strategy, the process, and the outcomes that moved the needle.</p>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:1.25rem;">
+
+    <!-- Case 1 — Zelle at Wells Fargo -->
+    <div class="case-card" style="grid-column:span 1; position:relative;">
+      <div class="case-card-arrow">↗</div>
+      <div class="case-card-img">
+        <svg width="100%" height="100%" viewBox="0 0 560 315" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#4f8ef7" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#7c5cbf" stop-opacity="0.1"/>
+            </linearGradient>
+          </defs>
+          <rect width="560" height="315" fill="url(#g1)"/>
+          <rect x="40" y="40" width="480" height="235" rx="8" fill="rgba(3,7,30,0.6)" stroke="rgba(79,142,247,0.2)" stroke-width="1"/>
+          <rect x="40" y="40" width="90" height="235" rx="8" fill="rgba(79,142,247,0.08)"/>
+          <circle cx="85" cy="65" r="12" fill="rgba(79,142,247,0.3)"/>
+          <rect x="58" y="90" width="54" height="5" rx="2.5" fill="rgba(255,255,255,0.15)"/>
+          <rect x="65" y="105" width="40" height="4" rx="2" fill="rgba(255,255,255,0.08)"/>
+          <rect x="65" y="118" width="46" height="4" rx="2" fill="rgba(79,142,247,0.4)"/>
+          <rect x="65" y="131" width="38" height="4" rx="2" fill="rgba(255,255,255,0.08)"/>
+          <rect x="65" y="144" width="44" height="4" rx="2" fill="rgba(255,255,255,0.08)"/>
+          <rect x="145" y="55" width="120" height="7" rx="3.5" fill="rgba(255,255,255,0.25)"/>
+          <rect x="145" y="75" width="100" height="50" rx="6" fill="rgba(79,142,247,0.12)" stroke="rgba(79,142,247,0.2)" stroke-width="0.5"/>
+          <rect x="255" y="75" width="100" height="50" rx="6" fill="rgba(124,92,191,0.12)" stroke="rgba(124,92,191,0.2)" stroke-width="0.5"/>
+          <rect x="365" y="75" width="100" height="50" rx="6" fill="rgba(45,212,191,0.12)" stroke="rgba(45,212,191,0.2)" stroke-width="0.5"/>
+          <rect x="157" y="89" width="50" height="6" rx="3" fill="rgba(79,142,247,0.6)"/>
+          <rect x="157" y="100" width="30" height="4" rx="2" fill="rgba(255,255,255,0.2)"/>
+          <rect x="267" y="89" width="55" height="6" rx="3" fill="rgba(124,92,191,0.6)"/>
+          <rect x="267" y="100" width="30" height="4" rx="2" fill="rgba(255,255,255,0.2)"/>
+          <rect x="377" y="89" width="45" height="6" rx="3" fill="rgba(45,212,191,0.6)"/>
+          <rect x="377" y="100" width="30" height="4" rx="2" fill="rgba(255,255,255,0.2)"/>
+          <rect x="145" y="138" width="220" height="110" rx="6" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/>
+          <polyline points="160,225 185,205 210,215 235,190 260,200 285,175 310,185 335,165" stroke="#4f8ef7" stroke-width="1.5" fill="none" opacity="0.8"/>
+          <polyline points="160,225 185,205 210,215 235,190 260,200 285,175 310,185 335,165 335,240 160,240" fill="rgba(79,142,247,0.06)"/>
+          <rect x="375" y="138" width="90" height="110" rx="6" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/>
+          <rect x="382" y="148" width="75" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
+          <rect x="382" y="160" width="60" height="3" rx="1.5" fill="rgba(255,255,255,0.07)"/>
+          <rect x="382" y="170" width="68" height="3" rx="1.5" fill="rgba(255,255,255,0.07)"/>
+          <rect x="382" y="180" width="55" height="3" rx="1.5" fill="rgba(79,142,247,0.3)"/>
+          <rect x="382" y="190" width="63" height="3" rx="1.5" fill="rgba(255,255,255,0.07)"/>
+          <rect x="382" y="200" width="70" height="3" rx="1.5" fill="rgba(255,255,255,0.07)"/>
+          <rect x="382" y="210" width="50" height="3" rx="1.5" fill="rgba(45,212,191,0.3)"/>
+        </svg>
+      </div>
+      <div class="case-card-body">
+        <span class="case-tag tag-blue">Fintech · Wells Fargo · 2018–Present</span>
+        <div class="case-card-title">Zelle Redesign — Best-in-Class P2P Payments</div>
+        <div class="case-card-desc">Led all design for Zelle at Wells Fargo — including QR code send/receive, Small Business account access, and a full UX overhaul. Managed vendors, engineering, QA, and content partners across distributed teams.</div>
+        <div class="case-card-meta">
+          <span>+8pt NPS → 60</span>
+          <span>#1 in Zelle Network</span>
+          <span>QR Best-in-Class</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Case 2 — Charitable Giving / Wells Fargo -->
+    <div class="case-card" style="position:relative;">
+      <div class="case-card-arrow" style="background:rgba(124,92,191,0.12); border-color:rgba(124,92,191,0.2); color:var(--accent2);">↗</div>
+      <div class="case-card-img" style="background:linear-gradient(135deg,rgba(124,92,191,0.15),rgba(45,212,191,0.1));">
+        <svg width="100%" height="100%" viewBox="0 0 560 315">
+          <defs>
+            <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#7c5cbf" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0.1"/>
+            </linearGradient>
+          </defs>
+          <rect width="560" height="315" fill="url(#g2)"/>
+          <rect x="155" y="30" width="110" height="250" rx="14" fill="rgba(3,7,30,0.7)" stroke="rgba(124,92,191,0.3)" stroke-width="1.5"/>
+          <rect x="295" y="55" width="110" height="210" rx="14" fill="rgba(3,7,30,0.5)" stroke="rgba(45,212,191,0.2)" stroke-width="1"/>
+          <rect x="163" y="50" width="94" height="6" rx="3" fill="rgba(255,255,255,0.2)"/>
+          <circle cx="210" cy="85" r="28" fill="rgba(124,92,191,0.2)" stroke="rgba(124,92,191,0.4)" stroke-width="1"/>
+          <text x="210" y="90" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="18">♥</text>
+          <rect x="170" y="122" width="80" height="5" rx="2.5" fill="rgba(255,255,255,0.15)"/>
+          <rect x="178" y="134" width="64" height="4" rx="2" fill="rgba(255,255,255,0.07)"/>
+          <rect x="163" y="148" width="94" height="32" rx="6" fill="rgba(124,92,191,0.15)" stroke="rgba(124,92,191,0.2)" stroke-width="0.5"/>
+          <rect x="163" y="185" width="94" height="32" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/>
+          <rect x="163" y="222" width="94" height="32" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/>
+          <rect x="170" y="157" width="40" height="4" rx="2" fill="rgba(124,92,191,0.6)"/>
+          <rect x="170" y="194" width="50" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
+          <rect x="170" y="231" width="35" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
+          <rect x="303" y="73" width="94" height="5" rx="2.5" fill="rgba(255,255,255,0.15)"/>
+          <rect x="303" y="85" width="94" height="50" rx="6" fill="rgba(45,212,191,0.08)" stroke="rgba(45,212,191,0.15)" stroke-width="0.5"/>
+          <rect x="303" y="142" width="94" height="20" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+          <rect x="303" y="168" width="94" height="20" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+          <rect x="303" y="194" width="94" height="20" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+          <rect x="303" y="225" width="94" height="28" rx="14" fill="rgba(124,92,191,0.5)"/>
+          <rect x="325" y="234" width="50" height="4" rx="2" fill="rgba(255,255,255,0.6)"/>
+        </svg>
+      </div>
+      <div class="case-card-body">
+        <span class="case-tag tag-purple">Fintech · 0→1 · 2021</span>
+        <div class="case-card-title">Wells Fargo Charitable Giving — 4 Patent Filings</div>
+        <div class="case-card-desc">Conceived and designed a new product enabling customers to donate directly to charities from their bank accounts — eliminating third-party transaction fees. Defined research strategy, led rapid prototyping, and drove cross-functional delivery.</div>
+        <div class="case-card-meta">
+          <span>4 US Patents</span>
+          <span>0→1 Product</span>
+          <span>Research-led</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Case 3 — QuickBooks / Intuit -->
+    <div class="case-card" style="position:relative;">
+      <div class="case-card-arrow" style="background:rgba(45,212,191,0.1); border-color:rgba(45,212,191,0.2); color:var(--accent3);">↗</div>
+      <div class="case-card-img" style="background:linear-gradient(135deg,rgba(45,212,191,0.1),rgba(79,142,247,0.1));">
+        <svg width="100%" height="100%" viewBox="0 0 560 315">
+          <rect width="560" height="315" fill="rgba(45,212,191,0.05)"/>
+          <rect x="40" y="40" width="480" height="235" rx="8" fill="rgba(3,7,30,0.6)" stroke="rgba(45,212,191,0.15)" stroke-width="1"/>
+          <rect x="55" y="55" width="80" height="60" rx="6" fill="rgba(45,212,191,0.08)" stroke="rgba(45,212,191,0.2)" stroke-width="0.5"/>
+          <rect x="145" y="55" width="80" height="60" rx="6" fill="rgba(79,142,247,0.08)" stroke="rgba(79,142,247,0.2)" stroke-width="0.5"/>
+          <rect x="235" y="55" width="80" height="60" rx="6" fill="rgba(124,92,191,0.08)" stroke="rgba(124,92,191,0.2)" stroke-width="0.5"/>
+          <rect x="325" y="55" width="80" height="60" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+          <rect x="415" y="55" width="90" height="60" rx="6" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+          <rect x="62" y="88" width="66" height="16" rx="8" fill="rgba(45,212,191,0.4)"/>
+          <rect x="152" y="88" width="66" height="16" rx="8" fill="rgba(79,142,247,0.4)"/>
+          <rect x="242" y="88" width="66" height="16" rx="8" fill="transparent" stroke="rgba(124,92,191,0.5)"/>
+          <rect x="332" y="88" width="66" height="16" rx="8" fill="rgba(255,255,255,0.08)"/>
+          <rect x="422" y="88" width="66" height="16" rx="2" fill="rgba(255,255,255,0.05)"/>
+          <rect x="68" y="60" width="40" height="4" rx="2" fill="rgba(45,212,191,0.5)"/>
+          <rect x="158" y="60" width="40" height="4" rx="2" fill="rgba(79,142,247,0.5)"/>
+          <rect x="248" y="60" width="40" height="4" rx="2" fill="rgba(124,92,191,0.5)"/>
+          <rect x="338" y="60" width="40" height="4" rx="2" fill="rgba(255,255,255,0.2)"/>
+          <rect x="428" y="60" width="40" height="4" rx="2" fill="rgba(255,255,255,0.2)"/>
+          <rect x="55" y="128" width="170" height="100" rx="6" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)"/>
+          <rect x="235" y="128" width="260" height="100" rx="6" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)"/>
+          <circle cx="75" cy="150" r="10" fill="#4f8ef7" opacity="0.8"/>
+          <circle cx="95" cy="150" r="10" fill="#7c5cbf" opacity="0.8"/>
+          <circle cx="115" cy="150" r="10" fill="#2dd4bf" opacity="0.8"/>
+          <circle cx="135" cy="150" r="10" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)"/>
+          <rect x="65" y="168" width="80" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
+          <rect x="65" y="178" width="60" height="3" rx="1.5" fill="rgba(255,255,255,0.07)"/>
+          <rect x="65" y="188" width="70" height="3" rx="1.5" fill="rgba(255,255,255,0.07)"/>
+          <rect x="248" y="140" width="120" height="9" rx="4.5" fill="rgba(255,255,255,0.25)"/>
+          <rect x="248" y="158" width="90" height="6" rx="3" fill="rgba(255,255,255,0.15)"/>
+          <rect x="248" y="172" width="100" height="5" rx="2.5" fill="rgba(255,255,255,0.1)"/>
+          <rect x="248" y="185" width="80" height="4" rx="2" fill="rgba(255,255,255,0.07)"/>
+          <rect x="248" y="196" width="115" height="4" rx="2" fill="rgba(255,255,255,0.07)"/>
+          <rect x="248" y="207" width="70" height="4" rx="2" fill="rgba(255,255,255,0.07)"/>
+        </svg>
+      </div>
+      <div class="case-card-body">
+        <span class="case-tag tag-teal">Productivity · Intuit · 2014–2016</span>
+        <div class="case-card-title">QuickBooks Self-Employed — In-Product Animations</div>
+        <div class="case-card-desc">Partnered with marketing, product directors, and researchers to redesign messaging strategies and create in-product animations for QBSE. Drove a 50% increase in page subscriptions through a single animated benefit sequence.</div>
+        <div class="case-card-meta">
+          <span>+50% Subscriptions</span>
+          <span>Motion Design</span>
+          <span>User Research</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Divider -->
+<div class="divider" style="max-width:1200px; margin:0 auto;"></div>
+
+<!-- PASSION PROJECTS -->
+<section id="passion" class="fade-up">
+  <div class="section-label">Passion projects</div>
+  <h2 class="section-title">Beyond the brief</h2>
+  <p class="section-desc">Experiments, explorations, and initiatives I've led outside of day-to-day product work.</p>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.25rem;">
+
+    <div class="passion-card blue">
+      <div class="passion-icon" style="background:rgba(79,142,247,0.12); border:1px solid rgba(79,142,247,0.2);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg></div>
+      <div class="passion-title">Mobile Auto Loans — Innovation Winner</div>
+      <div class="passion-desc">Conceived and led design of an enterprise-wide Innovation competition winning concept at Wells Fargo — a fully mobile-first auto loan experience that reimagined a legacy process.</div>
+      <a href="#" class="passion-link" style="color:var(--accent);">View concept →</a>
+    </div>
+
+    <div class="passion-card purple">
+      <div class="passion-icon" style="background:rgba(124,92,191,0.12); border:1px solid rgba(124,92,191,0.2);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
+      <div class="passion-title">Digital Property Appraisal Delivery</div>
+      <div class="passion-desc">Designed the industry's first method for digital delivery of property appraisals, enabling faster mortgage approvals. The concept was scheduled for CFPB regulatory review.</div>
+      <a href="#" class="passion-link" style="color:var(--accent2);">Read the story →</a>
+    </div>
+
+    <div class="passion-card teal">
+      <div class="passion-icon" style="background:rgba(45,212,191,0.12); border:1px solid rgba(45,212,191,0.2);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a7 7 0 0114 0"/><path d="M8.5 12.5a3.5 3.5 0 017 0"/><circle cx="12" cy="12.5" r="1"/><line x1="12" y1="13.5" x2="12" y2="21"/><line x1="8" y1="21" x2="16" y2="21"/></svg></div>
+      <div class="passion-title">Google Experience Centers Identity</div>
+      <div class="passion-desc">Partnered with Google's GEC Group Director to design the full identity, micro-site template, and CMS for Experience Centers worldwide — delivered on an aggressive timeline.</div>
+      <a href="#" class="passion-link" style="color:var(--accent3);">Explore the work →</a>
+    </div>
+
+    <div class="passion-card blue">
+      <div class="passion-icon" style="background:rgba(79,142,247,0.12); border:1px solid rgba(79,142,247,0.2);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 20h8M12 18v2"/></svg></div>
+      <div class="passion-title">Next-Gen Digital Television UI</div>
+      <div class="passion-desc">At Samsung Design America, led UX/UI concepting for next-generation digital television and smartphone desktop interfaces — exploring entirely new interaction paradigms for consumer electronics.</div>
+      <a href="#" class="passion-link" style="color:var(--accent);">See the concepts →</a>
+    </div>
+
+    <div class="passion-card purple">
+      <div class="passion-icon" style="background:rgba(124,92,191,0.12); border:1px solid rgba(124,92,191,0.2);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10"/><path d="M7 15s1 2 5 2 5-2 5-2"/><path d="M7 10h.01M17 10h.01"/></svg></div>
+      <div class="passion-title">Disney App Store Discovery Redesign</div>
+      <div class="passion-desc">Redesigned the Disney App Store experience to dramatically improve content discovery and adoption — plus developed UX/UI requirements for an entirely new Disney guest social network.</div>
+      <a href="#" class="passion-link" style="color:var(--accent2);">View case →</a>
+    </div>
+
+    <div class="passion-card teal" style="background:linear-gradient(135deg,rgba(45,212,191,0.06),rgba(79,142,247,0.04));">
+      <div class="passion-icon" style="background:rgba(45,212,191,0.12); border:1px solid rgba(45,212,191,0.2);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="18" height="11" rx="2"/><path d="M7 10V7a5 5 0 0110 0v3"/><circle cx="12" cy="16" r="1"/></svg></div>
+      <div class="passion-title">Podcast Portal Design</div>
+      <div class="passion-desc">Designed a podcast portal and full visual design system for Symantec's Small and Medium Business section — resulting in increased podcast downloads and improved content accessibility.</div>
+      <a href="#" class="passion-link" style="color:var(--accent3);">See the project →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- Divider -->
+<div class="divider" style="max-width:1200px; margin:0 auto;"></div>
+
+<!-- INSPIRATION -->
+<section id="inspiration" class="fade-up">
+  <div class="section-label">Inspiration</div>
+  <h2 class="section-title">What fuels the work</h2>
+  <p class="section-desc">Books, quotes, people, and ideas that shape how I think about design and the world.</p>
+
+  <div class="inspo-grid">
+
+    <div class="inspo-card inspo-big">
+      <div style="margin-bottom:0.75rem; color:var(--accent);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h8a2 2 0 012 2v14a2 2 0 00-2-2H2V4z"/><path d="M22 4h-8a2 2 0 00-2 2v14a2 2 0 012-2h8V4z"/></svg></div>
+      <div class="inspo-quote">"Design is not just what it looks like and feels like. Design is how it works."</div>
+      <div class="inspo-author">Steve Jobs</div>
+      <div class="inspo-type">Formative principle</div>
+    </div>
+
+    <div class="inspo-card">
+      <div style="margin-bottom:0.75rem; color:var(--accent);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="15" rx="2"/><path d="M2 9h20M7 2l2 4M12 2l2 4M17 2l2 4"/></svg></div>
+      <div class="inspo-quote">"In the beginner's mind there are many possibilities, but in the expert's mind there are few."</div>
+      <div class="inspo-author">Shunryu Suzuki</div>
+      <div class="inspo-type">Zen Mind, Beginner's Mind</div>
+    </div>
+
+    <div class="inspo-card">
+      <div style="margin-bottom:0.75rem; color:var(--accent);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="21" x2="21" y2="21"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M5 10V21M8 10V21M12 10V21M16 10V21M19 10V21"/><path d="M3 10L12 3l9 7"/></svg></div>
+      <div style="font-size:0.88rem; font-weight:700; color:var(--text-primary); margin-bottom:0.4rem;">Dieter Rams</div>
+      <div class="inspo-desc" style="font-size:0.82rem; color:var(--text-secondary); line-height:1.6;">The 10 principles of good design remain the north star. Especially: as little design as possible.</div>
+      <div class="inspo-type" style="margin-top:0.75rem;">Design hero</div>
+    </div>
+
+    <div class="inspo-card">
+      <div style="margin-bottom:0.75rem; color:var(--accent);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12"/><path d="M12 12C12 7 17 3 21 3c0 4-3 9-9 9z"/><path d="M12 12C12 7 7 3 3 3c0 4 3 9 9 9z"/></svg></div>
+      <div class="inspo-quote">"The details are not the details. They make the design."</div>
+      <div class="inspo-author">Charles Eames</div>
+      <div class="inspo-type">Philosophy</div>
+    </div>
+
+    <div class="inspo-card">
+      <div style="margin-bottom:0.75rem; color:var(--accent);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V7a2 2 0 012-2h12a2 2 0 012 2v12"/><path d="M4 19a2 2 0 002 2h12a2 2 0 002-2"/><line x1="9" y1="5" x2="9" y2="21"/><line x1="4" y1="12" x2="20" y2="12"/></svg></div>
+      <div style="font-size:0.88rem; font-weight:700; color:var(--text-primary); margin-bottom:0.6rem;">Current reading</div>
+      <div style="font-size:0.82rem; color:var(--text-secondary); line-height:1.6; margin-bottom:0.5rem;">The Design of Everyday Things — Don Norman</div>
+      <div style="font-size:0.82rem; color:var(--text-secondary); line-height:1.6; margin-bottom:0.5rem;">Every Layout — Heydon Pickering</div>
+      <div style="font-size:0.82rem; color:var(--text-secondary); line-height:1.6;">The Mom Test — Rob Fitzpatrick</div>
+    </div>
+
+    <div class="inspo-card">
+      <div style="margin-bottom:0.75rem; color:var(--accent);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+      <div style="font-size:0.88rem; font-weight:700; color:var(--text-primary); margin-bottom:0.4rem;">Designing in flow</div>
+      <div style="font-size:0.82rem; color:var(--text-secondary); line-height:1.6;">Ambient electronic, jazz, and film scores. Currently on repeat: Jon Hopkins and Ryuichi Sakamoto.</div>
+      <div class="inspo-type" style="margin-top:0.75rem;">Soundtrack to work</div>
+    </div>
+
+    <div class="inspo-card">
+      <div style="margin-bottom:0.75rem; color:var(--accent);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+      <div class="inspo-quote">"First, solve the problem. Then, write the code."</div>
+      <div class="inspo-author">John Johnson</div>
+      <div class="inspo-type">Engineering wisdom for design</div>
+    </div>
+
+    <div class="inspo-card">
+      <div style="margin-bottom:0.75rem; color:var(--accent);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+      <div style="font-size:0.88rem; font-weight:700; color:var(--text-primary); margin-bottom:0.4rem;">Design accounts</div>
+      <div style="font-size:0.82rem; color:var(--text-secondary); line-height:1.6;">Paco Pancake · Rauno Freiberg · Emil Kowalski · Linear's design team · Vercel</div>
+      <div class="inspo-type" style="margin-top:0.75rem;">Following closely</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Divider -->
+<div class="divider" style="max-width:1200px; margin:0 auto;"></div>
+
+<!-- CONTACT -->
+<section id="contact" class="fade-up" style="text-align:center;">
+  <div class="section-label" style="justify-content:center;">Get in touch</div>
+  <h2 class="section-title">Let's make something<br>worth using</h2>
+  <p class="section-desc" style="margin:0 auto 3rem;">Open to VP / Lead IC roles, consulting, and meaningful collaborations. Reach me at <span style="color:var(--accent);">415 370 1908</span> or via email below.</p>
+
+  <div class="contact-wrapper">
+    <div class="contact-name-grid">
+      <input type="text" class="contact-input" placeholder="Your name" style="margin-bottom:0;">
+      <input type="email" class="contact-input" placeholder="Your email" style="margin-bottom:0;">
+    </div>
+    <div style="margin-top:1rem;">
+      <input type="text" class="contact-input" placeholder="Subject — what are you working on?">
+      <textarea class="contact-input" placeholder="Tell me about your project, role, or idea…"></textarea>
+    </div>
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
+      <div style="font-size:0.8rem; color:var(--text-muted);">Or email directly: <a href="/cdn-cgi/l/email-protection#e2838e879a92958b8c86918d90a2858f838b8ecc818d8f" style="color:var(--accent); text-decoration:none;"><span class="__cf_email__" data-cfemail="b3d2dfd6cbc3c4daddd7c0dcc1f3d4ded2dadf9dd0dcde">[email&#160;protected]</span></a></div>
+      <button class="contact-submit" id="contactSubmit">
+        Send message
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Social links -->
+  <div style="display:flex; gap:1.5rem; justify-content:center; margin-top:2.5rem; flex-wrap:wrap;">
+    <a href="https://www.linkedin.com/in/alex-windsor-4467341/" target="_blank" rel="noopener noreferrer" style="font-size:0.8rem; color:var(--text-muted); text-decoration:none; display:flex; align-items:center; gap:0.4rem; transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">LinkedIn ↗</a>
+    <a href="#" style="font-size:0.8rem; color:var(--text-muted); text-decoration:none; display:flex; align-items:center; gap:0.4rem; transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">Resume PDF ↗</a>
+  </div>
+</section>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div style="max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
+    <span>© 2025 Alex Windsor · San Francisco</span>
+    <span style="color:var(--text-muted);">Designed with obsessive attention to detail.</span>
+    <a href="#home" style="font-size:0.8rem; color:var(--accent); text-decoration:none;">Back to top ↑</a>
+  </div>
+</footer>
+
+
+
+<!-- Full-screen nav modal — placed last so it sits above everything -->
+<div class="nav-modal" id="navModal" role="dialog" aria-modal="true" aria-label="Navigation">
+  <button class="nav-close" id="navClose" aria-label="Close menu">✕</button>
+  <ul class="nav-modal-links">
+    <li><a href="#about" class="nav-link-item">About</a></li>
+    <li><a href="#case-studies" class="nav-link-item">Case Studies</a></li>
+    <li><a href="#passion" class="nav-link-item">Passion Projects</a></li>
+    <li><a href="#inspiration" class="nav-link-item">Inspiration</a></li>
+    <li><a href="#contact" class="nav-link-item">Contact</a></li>
+  </ul>
+  <div class="nav-modal-sub">
+    <a href="https://www.linkedin.com/in/alex-windsor-4467341/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <a href="#">Resume PDF</a>
+  </div>
+</div>
+
+
+
+
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+
+    // ── Scroll handler ──────────────────────────────────────────
+    // Single function used for ALL scroll events so position is always identical.
+    // Offset = exact header height measured at call time.
+    function scrollTo(id) {
+      var el = document.getElementById(id);
+      var header = document.querySelector('header');
+      if (!el || !header) return;
+      var sectionPadding = parseInt(window.getComputedStyle(el).paddingTop) || 0;
+      var top = el.offsetTop + sectionPadding - header.offsetHeight - 20;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+
+    // Intercept every internal anchor click
+    document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        var id = this.getAttribute('href').replace('#', '');
+        if (!id) return;
+        e.preventDefault();
+        scrollTo(id);
+        // Update URL hash without triggering browser scroll
+        history.pushState(null, '', '#' + id);
+      });
+    });
+
+    // On initial load, if there's a hash in the URL scroll to it correctly
+    if (window.location.hash) {
+      var id = window.location.hash.replace('#', '');
+      setTimeout(function() { scrollTo(id); }, 50);
+    }
+    // ────────────────────────────────────────────────────────────
+
+    // Hamburger / nav modal
+    var hamburger = document.getElementById('hamburger');
+    var navModal = document.getElementById('navModal');
+    var navClose = document.getElementById('navClose');
+    var navLinkItems = document.querySelectorAll('.nav-link-item');
+
+    function openNav() {
+      navModal.classList.add('open');
+      hamburger.classList.add('open');
+      hamburger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeNav() {
+      navModal.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    if (hamburger) hamburger.addEventListener('click', function() {
+      if (navModal.classList.contains('open')) closeNav();
+      else openNav();
+    });
+    if (navClose) navClose.addEventListener('click', closeNav);
+    navLinkItems.forEach(function(link) { link.addEventListener('click', closeNav); });
+    if (navModal) navModal.addEventListener('click', function(e) { if (e.target === navModal) closeNav(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeNav(); });
+
+    // Fade-up on scroll — Safari-safe
+    if ('IntersectionObserver' in window) {
+      document.documentElement.classList.add('js-animations');
+      var fadeEls = document.querySelectorAll('.fade-up');
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.05 });
+      fadeEls.forEach(function(el) { observer.observe(el); });
+    }
+
+    // Contact form — mailto
+    var submitBtn = document.getElementById('contactSubmit');
+    if (submitBtn) {
+      submitBtn.addEventListener('click', function() {
+        var inputs = document.querySelectorAll('.contact-input');
+        var name    = inputs[0] ? inputs[0].value.trim() : '';
+        var email   = inputs[1] ? inputs[1].value.trim() : '';
+        var subject = inputs[2] ? inputs[2].value.trim() : '';
+        var body    = inputs[3] ? inputs[3].value.trim() : '';
+        var mailSubject = encodeURIComponent(subject || 'Portfolio enquiry');
+        var mailBody = encodeURIComponent(
+          (name  ? 'Name: ' + name + '\n'  : '') +
+          (email ? 'Email: ' + email + '\n\n' : '\n') +
+          (body  ? body : '')
+        );
+        window.location.href = 'mailto:alexpwindsor@gmail.com?subject=' + mailSubject + '&body=' + mailBody;
+      });
+    }
+
+  });
+</script>
+
+</body>
+</html>
