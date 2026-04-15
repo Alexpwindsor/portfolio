@@ -166,6 +166,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
+  }
+
+  @media (max-width: 768px) {
+    .header-inner {
+      padding: 1.25rem 1.25rem;
+    }
+    .logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 
   .logo {
@@ -836,7 +848,7 @@
 <div class="content">
 <section class="hero" style="padding-top:7rem; max-width:1200px; position:relative;" id="home">
   <div style="max-width:800px;">
-    <div class="hero-eyebrow fade-up">Senior Product Designer · UX Strategist</div>
+    <div class="hero-eyebrow fade-up">Senior Product Designer</div>
     <h1 class="hero-title fade-up" style="transition-delay:0.1s;">
       Designing<br>
       <span class="accent">products</span><br>
@@ -845,7 +857,7 @@
     <p class="hero-desc fade-up" style="transition-delay:0.2s;">
       I'm Alex Windsor — a Senior Product Designer crafting intuitive digital experiences for major brands including Wells Fargo, Intuit, Google, Disney, Samsung, and Symantec. I steer design thinking from strategy through execution, with a track record of measurable impact.
     </p>
-    <div class="fade-up" style="transition-delay:0.3s;">
+    <div class="fade-up" style="transition-delay:0.3s; text-align:center;">
       <a href="#case-studies" class="hero-cta">View my work ↓</a>
       <a href="#contact" class="hero-cta-ghost">Get in touch</a>
     </div>
