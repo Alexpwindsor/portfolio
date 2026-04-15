@@ -362,6 +362,12 @@
     max-width: 1200px;
     margin: 0 auto;
   }
+  .hero-cta-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
   .hero-eyebrow {
     font-size: 0.75rem;
     letter-spacing: 0.18em;
@@ -425,13 +431,9 @@
     text-decoration: none;
     border: 1px solid var(--tile-border);
     transition: color 0.2s, border-color 0.2s;
-    margin-left: 1rem;
+    margin-left: 0;
   }
-  .hero-cta-ghost:hover { color: var(--text-primary); border-color: rgba(255,255,255,0.2); }
-
-
-
-  /* Stats row */
+  .hero-cta-ghost:hover { color: var(--text-primary); border-color: rgba(255,255,255,0.2); }  /* Stats row */
   .stat-val {
     font-size: 2.2rem;
     font-weight: 800;
@@ -846,8 +848,8 @@
   </div>
 </header>
 <div class="content">
-<section class="hero" style="padding-top:7rem; max-width:1200px; position:relative;" id="home">
-  <div style="max-width:800px;">
+<section class="hero" id="home">
+  <div style="max-width:680px; width:100%;">
     <div class="hero-eyebrow fade-up">Senior Product Designer</div>
     <h1 class="hero-title fade-up" style="transition-delay:0.1s;">
       Designing<br>
@@ -857,7 +859,7 @@
     <p class="hero-desc fade-up" style="transition-delay:0.2s;">
       I'm Alex Windsor — a Senior Product Designer crafting intuitive digital experiences for major brands including Wells Fargo, Intuit, Google, Disney, Samsung, and Symantec. I steer design thinking from strategy through execution, with a track record of measurable impact.
     </p>
-    <div class="fade-up" style="transition-delay:0.3s; text-align:center;">
+    <div class="fade-up hero-cta-row" style="transition-delay:0.3s;">
       <a href="#case-studies" class="hero-cta">View my work ↓</a>
       <a href="#contact" class="hero-cta-ghost">Get in touch</a>
     </div>
@@ -869,7 +871,7 @@
         <div class="stat-label">Products shipped</div>
       </div>
       <div>
-        <div class="stat-val">3</div>
+        <div class="stat-val">4</div>
         <div class="stat-label">US Patents filed</div>
       </div>
       <div>
@@ -878,8 +880,6 @@
       </div>
     </div>
   </div>
-
-
 </section>
 
 <!-- ABOUT -->
@@ -892,7 +892,7 @@
         Based in San Francisco, I obsess over how people interact with technology at scale. From shaping Zelle at Wells Fargo to defining QuickBooks' visual language at Intuit — I bridge design craft with business outcomes.
       </p>
       <p style="font-size:0.95rem; color:var(--text-secondary); line-height:1.75; margin-bottom:2rem;">
-        I lead cross-functional teams, manage design programs end-to-end, and bring a rare combination of strategic vision and hands-on execution. My work has earned 3 US patents, a best-in-class network rating, and measurable NPS growth at one of the largest banks in the country.
+        I lead cross-functional teams, manage design programs end-to-end, and bring a rare combination of strategic vision and hands-on execution. My work has earned 4 US patents, a best-in-class network rating, and measurable NPS growth at one of the largest banks in the country.
       </p>
 
       <!-- Experience timeline -->
@@ -956,7 +956,7 @@
       </div>
       <div class="tile" style="padding:1.75rem; background:linear-gradient(135deg,rgba(79,142,247,0.06),rgba(124,92,191,0.06));">
         <div style="margin-bottom:0.75rem; color:var(--accent);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v6a6 6 0 01-12 0V2z"/><path d="M6 4H3a2 2 0 000 4h3M18 4h3a2 2 0 010 4h-3"/><path d="M12 14v4M8 22h8"/><line x1="12" y1="8" x2="12" y2="8.01"/></svg></div>
-        <div style="font-size:0.95rem; font-weight:700; color:var(--text-primary); margin-bottom:0.35rem;">3 US Patents Filed</div>
+        <div style="font-size:0.95rem; font-weight:700; color:var(--text-primary); margin-bottom:0.35rem;">4 US Patents Filed</div>
         <div style="font-size:0.82rem; color:var(--text-muted);">Concepts from Wells Fargo Charitable Giving · #12541378 · #29890621 · #18643854</div>
       </div>
       <div class="tile" style="padding:1.75rem;">
